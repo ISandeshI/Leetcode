@@ -56,3 +56,29 @@ it shall be used only when either of case is definitely going to occure.
 
 in python coding we can use "\" this character if we want continue same line of coding onto next line,
 but want to see it in the same screen insread of using left to right scrolling.
+
+---------------------------------------------------------------------------------
+
+ord(char) → character to ASCII number
+chr(num) → ASCII number to character
+XOR operator symbol: ^
+XOR rules: 0^0=0, 1^1=0, 0^1=1, 1^0=1
+XOR works bit by bit, not on whole numbers, Even if number is given it converts into bits and then perform
+operation.
+Same numbers XORed cancel out → x ^ x = 0 and XOR with 0 keeps value → x ^ 0 = x
+
+example, If we given s and t as input of string list, we have to check what extra character t has.
+we combined s & t , s = "abcd"
+t = "abcde"
+
+s+t = "abcdabcde"
+
+All paired characters cancel out after XOR operation.
+✔ Only ASCII of 'e' remains:
+
+class Solution:
+    def findTheDifference(self, s: str, t: str) -> str:
+        result = 0
+        for c in s + t:
+            result ^= ord(c)
+        return chr(result)
