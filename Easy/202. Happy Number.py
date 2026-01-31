@@ -58,4 +58,5 @@ class Solution:
 This runs in 0ms.
 Made a silly mistake of not adding sum1 to set1.
 It caused TLE error.
+So keep the track of basic variables.
 """
