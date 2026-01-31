@@ -1,0 +1,58 @@
+    def removeElement(self, nums: List[int], val: int):
+        j = 0
+        
+        for i in range(len(nums)):
+            if nums[i] != val:
+                nums[j] = nums[i]
+                j += 1
+
+        return j
+
+
+this inner code is a pattern. when you are starting from begining.
+you have to delete one value assign something from next.
+here you will use some condition to check for deletion. if true then pop.
+this make further elements to shift left.
+
+now problem comes if same condition appears consectively twice + times.
+next element is already shifted to left and you have already checked current index.
+This is where answers starts getting wrong.
+
+To avoid this above pattern make sure with opposite logic.
+two pointers are made. will keep moving one by one like scanning array.
+another one will only move if opposite condition is met.
+if condition is not met then do swapping with element.
+
+This above part is very important.
+
+Now if actual condition is met then no swappnig happens and also another pointer stays there.
+
+This method saves memory by not creating any extra variable.
+But it makes unnecessary swaps as well.
+
+
+-------------------------------------------------------------------------------------------
+
+        x, y = 0, 0
+
+        for m in moves:
+            match m:
+                case "U":
+                    y += 1
+                case "D":
+                    y -= 1
+                case "L":
+                    x -= 1
+                case "R":
+                    x += 1
+
+        return x == 0 and y == 0
+
+if you ever have to use if statements for many times, then use match and case statement like above.
+it shall be used only when either of case is definitely going to occure.
+
+
+----------------------------------------------------------------------------------
+
+in python coding we can use "\" this character if we want continue same line of coding onto next line,
+but want to see it in the same screen insread of using left to right scrolling.
