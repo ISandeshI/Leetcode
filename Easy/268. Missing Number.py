@@ -1,0 +1,51 @@
+# 268. Missing Number
+# Easy
+# Topics
+# premium lock icon
+# Companies
+# Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.
+
+ 
+
+# Example 1:
+
+# Input: nums = [3,0,1]
+
+# Output: 2
+
+# Explanation:
+
+# n = 3 since there are 3 numbers, so all numbers are in the range [0,3]. 2 is the missing number in the range since it does not appear in nums.
+
+# Example 2:
+
+# Input: nums = [0,1]
+
+# Output: 2
+
+# Explanation:
+
+# n = 2 since there are 2 numbers, so all numbers are in the range [0,2]. 2 is the missing number in the range since it does not appear in nums.
+
+# Example 3:
+
+# Input: nums = [9,6,4,2,3,5,7,0,1]
+
+# Output: 8
+
+# Explanation:
+
+# n = 9 since there are 9 numbers, so all numbers are in the range [0,9]. 8 is the missing number in the range since it does not appear in nums.
+
+class Solution:
+    def missingNumber(self, nums: List[int]):
+        n = len(nums)
+        sumSeries = (n * (n+1)) //2
+        numSum = sum(nums)
+        return sumSeries - numSum
+    
+"""
+Runtime 0ms, i did check the correct formula for sum of series. But did not cheat on anything else.
+Logic is completely mine. Although indexing start at 0 - n, But we are given total n element including 0.
+So to find missing number just subtract  1 - n sum minus current sum of list and we get desired missing number.
+"""

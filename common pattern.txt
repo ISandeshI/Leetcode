@@ -82,3 +82,21 @@ class Solution:
         for c in s + t:
             result ^= ord(c)
         return chr(result)
+
+---------------------------------------------------------------------------------
+
+In binary search we have remember few things.
+1.  while left <= right:
+2. if found at middle then return the index or true
+3. second if condition has to greater than given target or rightmost number.
+
+binary search pattern code:
+
+        while left <= right:
+            mid = (left + right) // 2
+            if mid * mid == num:
+                return True
+            if (mid * mid) > num:
+                right = mid - 1
+            else:
+                left = mid + 1
