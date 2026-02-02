@@ -100,3 +100,11 @@ binary search pattern code:
                 right = mid - 1
             else:
                 left = mid + 1
+
+------------------------------------------------------------------------
+
+Just a note:
+Unicode defines characters and assigns code points. UTF-8 is an encoding that converts
+ those code points into bytes for storage and transmission.
+ UTF-8 is variable-length, efficient, and backward compatible with ASCII,
+ which is why it is the dominant encoding today.
