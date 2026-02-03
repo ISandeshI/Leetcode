@@ -102,9 +102,32 @@ binary search pattern code:
                 left = mid + 1
 
 ------------------------------------------------------------------------
+Remember there is an unique case of bs.
+We have to check first occurence and may be others also in sorted array.
+here two important things happens.
+while left < right
+and right do not decrease. it stays with mid.
+And the moment we found our first occurece with left, We keep our left
+there only.
+In the end we return left. check the code:
+
+while left < right:
+                mid = (left + right) // 2
+
+                if nums[mid] < target:
+                    left = mid + 1
+                else:
+                    right = mid
+
+            return left
+
+
+------------------------------------------------------------------------
 
 Just a note:
 Unicode defines characters and assigns code points. UTF-8 is an encoding that converts
  those code points into bytes for storage and transmission.
  UTF-8 is variable-length, efficient, and backward compatible with ASCII,
  which is why it is the dominant encoding today.
+
+------------------------------------------------------------------------------------------
