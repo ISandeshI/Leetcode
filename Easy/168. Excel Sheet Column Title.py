@@ -81,5 +81,23 @@ we can also use following code :
             remainder = columnNumber % 26
             result += mp[remainder + 1]
             columnNumber //= 26
+-------------------------------------------------------------------------------
 
+This is a standard problem called sliding window and search.
+following is code with this:
+
+class Solution:
+    def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
+        seen = set()
+
+        for i, num in enumerate(nums):
+            if num in seen:
+                return True
+
+            seen.add(num)
+
+            if len(seen) > k:
+                seen.remove(nums[i - k])
+
+        return False
 """

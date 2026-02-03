@@ -131,3 +131,59 @@ Unicode defines characters and assigns code points. UTF-8 is an encoding that co
  which is why it is the dominant encoding today.
 
 ------------------------------------------------------------------------------------------
+
+Sliding Window Template:
+
+initialize window
+for each step:
+    add new element
+    remove old element
+    update result
+
+example: Find the maximum sum of any subarray of size k.
+
+Example
+nums = [2, 1, 5, 1, 3, 2]
+k = 3
+
+
+Subarrays of size 3:
+
+[2,1,5] → sum = 8
+
+[1,5,1] → sum = 7
+
+[5,1,3] → sum = 9 ✅
+
+[1,3,2] → sum = 6
+
+Answer = 9
+
+Sliding Window Approach (BEST)
+ Code (memorize this pattern):
+
+class Solution:
+    def maxSubArraySum(self, nums, k):
+        window_sum = sum(nums[:k])
+        max_sum = window_sum
+
+        for i in range(k, len(nums)):
+            window_sum += nums[i]        # add right element
+            window_sum -= nums[i - k]    # remove left element
+            max_sum = max(max_sum, window_sum)
+
+        return max_sum
+
+expmale 2: Count subarrays of size k with sum ≥ target
+
+count = 0
+window_sum = sum(nums[:k])
+
+if window_sum >= target:
+    count += 1
+
+for i in range(k, len(nums)):
+    window_sum += nums[i]
+    window_sum -= nums[i - k]
+    if window_sum >= target:
+        count += 1
