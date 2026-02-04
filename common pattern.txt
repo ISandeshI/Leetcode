@@ -187,3 +187,24 @@ for i in range(k, len(nums)):
     window_sum -= nums[i - k]
     if window_sum >= target:
         count += 1
+
+
+------------------------------------------------------------------------
+
+two ways to convert list into string:
+1. "".join(list1)
+This line converts list1 into string
+
+2. str1 = str1[:i] + list[j] + str1[i + 1:]
+At ith place we can replace list[j] character. run this mechanism in loop to change entire string.
+
+--------------------------------------------------------------------------------------
+
+list((Counter(nums1) & Counter(nums2)).elements())
+
+What does "&" do for Counters?
+It keeps only common keys and takes the minimum count.
+
+.elements() converts the Counter back into a sequence:
+example: Counter({2: 2, 1: 3}).elements()
+-> 2, 2, 1, 1, 1
