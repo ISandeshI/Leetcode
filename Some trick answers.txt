@@ -1,0 +1,13 @@
+retur s in (s + s)[1:-1]
+
+If s is built by repeating a substring, it will appear inside (s + s) excluding first & last characters
+Otherwise, it won’t
+
+Example:
+s = "abab"
+s+s = "abababab"
+(s+s)[1:-1] = "bababa"
+"abab" in "bababa" → True
+
+-----------------------------------------------------------------------------
+
