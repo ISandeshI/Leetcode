@@ -33,29 +33,36 @@ class ListNode:
         self.next = next
 
 class Solution:
-
     def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
-        list3 = ListNode()
-          
-        if list1.val <= list2.val:
-                list3 = list1
-                list1 = list1.next
+        temp = ListNode()
+        list3 = temp
 
-        else:
-                list3 = list2
-                list2 = list2.next
-        temp = list3
-
-        while list1.next == None or list2.next == None:
+        while list1 and list2:
 
             if list1.val <= list2.val:
+                list3.next = list1
                 list1 = list1.next
-                temp.next = list1
-
+                
             else:
+                list3.next = list2
                 list2 = list2.next
-                temp.next = list2
 
-            temp = temp.next
+            list3 = list3.next
 
-        return list3
+        if list1:
+            list3.next = list1
+        else:
+            list3.next = list2
+
+        return temp.next
+    
+"""
+I am officially a turd. Today i take 6 problems and for all i did check with AI.
+Obviously this runs in 0ms.
+
+I was not able to know how to keep track of head of list3. With chatgpt i come to know we can create 
+a blank node whose next is start of list3.
+In the end again we have to check if any list is still in existance (and it will at least one element
+from either of the list), then append that all to list3.
+
+"""
