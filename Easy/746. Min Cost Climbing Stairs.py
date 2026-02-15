@@ -1,0 +1,98 @@
+# 746. Min Cost Climbing Stairs
+# Easy
+# Topics
+# premium lock icon
+# Companies
+# Hint
+# You are given an integer array cost where cost[i] is the cost of ith step on a staircase. Once you pay the cost, you can either climb one or two steps.
+
+# You can either start from the step with index 0, or the step with index 1.
+
+# Return the minimum cost to reach the top of the floor.
+
+ 
+
+# Example 1:
+
+# Input: cost = [10,15,20]
+# Output: 15
+# Explanation: You will start at index 1.
+# - Pay 15 and climb two steps to reach the top.
+# The total cost is 15.
+# Example 2:
+
+# Input: cost = [1,100,1,1,1,100,1,1,100,1]
+# Output: 6
+# Explanation: You will start at index 0.
+# - Pay 1 and climb two steps to reach index 2.
+# - Pay 1 and climb two steps to reach index 4.
+# - Pay 1 and climb two steps to reach index 6.
+# - Pay 1 and climb one step to reach index 7.
+# - Pay 1 and climb two steps to reach index 9.
+# - Pay 1 and climb one step to reach the top.
+# The total cost is 6.
+ 
+
+# Constraints:
+
+# 2 <= cost.length <= 1000
+# 0 <= cost[i] <= 999
+
+
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        prev2 = cost[0]
+        prev1 = cost[1]
+
+        for i in range(2, len(cost)):
+            currentCost = cost[i] + min(prev1, prev2)
+            prev2 = prev1
+            prev1 = currentCost
+
+        return min(prev1, prev2)
+
+
+"""
+Above code is stolen from chatgpt. Obviously it runs in 1ms.
+following solution runs in 0ms:
+        n = len(cost)
+        for i in range(2,n):
+            cost[i] = min(cost[i-1],cost[i-2]) + cost[i];
+        return min(cost[n-1],cost[n-2])
+        
+Initialy i thought about greedy solution to check which sum is lesser i + 1 OR i + 2.
+But this is problem about DP( Dynamic programing) because we have to think about future outcome based 
+upon current choices,If a problem asks for “minimum total cost” with choices at each step → think DP first, not greedy
+
+
+class Solution:
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        sum1, sum2 = cost[0], cost[1]
+        current = 0
+        while current < len(cost) - 1:
+            if current + 2 >=len(cost):
+                secondDigit = 0
+            else:
+                secondDigit = cost[current + 2]
+            if cost[current] + cost[current + 1] < cost[current] + secondDigit:
+                sum1 += cost[current + 1]
+                current += 1
+            else:
+                sum1 += secondDigit
+                current += 2
+
+        current = 1
+        while current < len(cost) - 1:
+            if current + 2 >=len(cost):
+                secondDigit = 0
+            else:
+                secondDigit = cost[current + 2]
+            if cost[current] + cost[current + 1] < cost[current] + secondDigit:
+                sum2 += cost[current + 1]
+                current += 1
+            else:
+                sum2 += secondDigit
+                current += 2
+
+        return min(sum2, sum1)
+"""

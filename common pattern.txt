@@ -84,6 +84,12 @@ class Solution:
         return chr(result)
 
 ---------------------------------------------------------------------------------
+How to know it's a Binary Search ??
+
+1) tell the maximum of minimums, tell the minimum of maximums (90%)
+2) if the array is sorted in arsc/desc
+3) If there are certain possible answers, and you need to 
+find the best ans among all the pool of answers, (75%) 
 
 In binary search we have remember few things.
 1.  while left <= right:
