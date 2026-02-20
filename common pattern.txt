@@ -214,3 +214,8 @@ It keeps only common keys and takes the minimum count.
 .elements() converts the Counter back into a sequence:
 example: Counter({2: 2, 1: 3}).elements()
 -> 2, 2, 1, 1, 1
+
+
+---------------------------------------------------------------------------
+
+problem number 930
