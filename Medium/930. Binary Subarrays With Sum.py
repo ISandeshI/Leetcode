@@ -32,26 +32,40 @@
 
 class Solution:
     def numSubarraysWithSum(self, nums: List[int], goal: int) -> int:
-        prefix_sum = 0
-        count = 0
-        freq = {0: 1}
-        
-        for num in nums:
-            prefix_sum += num
+        def atMost(k):
+            left = 0
+            count = 0
+            currTotal = 0
             
-            if prefix_sum - goal in freq:
-                count += freq[prefix_sum - goal]
+            for right in range(len(nums)):
+                currTotal += nums[right]
+                
+                while currTotal > k:
+                    currTotal -= nums[left]
+                    left += 1
+                
+                count += right - left + 1
             
-            freq[prefix_sum] = freq.get(prefix_sum, 0) + 1
+            return count
         
-        return count
-
+        if goal < 0:
+            return 0
+        
+        return atMost(goal) - atMost(goal - 1)
 
 
 
 
 """
 This is an AI generated code and i can't explain this.
+watch this for better explaination:
+https://www.youtube.com/watch?v=w_lNKXAEWdM
+
+example: to find result upto 2
+find set of 0,1,2 and set of 0,1
+then if you subtract them then you will get result of 2
+that's the reason behind last line in above code.
+
 above question is tricky, if we encounter continous 0s, and even if we move left, sum is not affected.
 so we actualy get more combinations. now the solution is count each time if current sum is less than 
 equal to goal, if yes then count the length of current subarray to count.
