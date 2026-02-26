@@ -1,4 +1,4 @@
-retur s in (s + s)[1:-1]
+return s in (s + s)[1:-1]
 
 If s is built by repeating a substring, it will appear inside (s + s) excluding first & last characters
 Otherwise, it won’t
@@ -11,3 +11,24 @@ s+s = "abababab"
 
 -----------------------------------------------------------------------------
 
+one liner syntax are different depending on conditions:
+1. Include element only if condition is True
+[expression for item in iterable if condition]
+
+Example:
+nums = [1, 2, 3, 4, 5]
+
+evens = [x for x in nums if x % 2 == 0]
+Output: [2, 4]
+
+2. if-else (Ternary Expression)
+[expression_if_true if condition else expression_if_false for item in iterable]
+
+Example:
+nums = [1, 2, 3, 4]
+
+result = ["even" if x % 2 == 0 else "odd" for x in nums]
+Output: ['odd', 'even', 'odd', 'even']
+
+so remember only if statement then for loop comes first then if statement
+and if else statement then if else statement with their respective expressions and then for loop.

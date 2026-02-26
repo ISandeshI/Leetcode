@@ -218,3 +218,46 @@ example: Counter({2: 2, 1: 3}).elements()
 
 ---------------------------------------------------------------------------
 
+reversing singly linkedlist (use dynamic programing):
+
+def reverseList(self, head):
+
+    prev = None
+    curr = head
+
+    while curr:
+        next_node = curr.next   # 1️⃣ store next
+        curr.next = prev        # 2️⃣ reverse pointer
+        prev = curr             # 3️⃣ move prev forward
+        curr = next_node        # 4️⃣ move curr forward
+
+    return prev
+
+this is very basic and simple, following is recursive:
+
+class Solution:
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        def reverse(head):
+            if not head or head.next == None:
+                return head
+            
+            newHead = reverse(head.next)
+            front =  head.next      #you always forget to add this line
+            front.next = head       #This is very important to keep separate 
+            head.next = None        #track of newhead and and the node from which we reverse to it's previous
+            return newHead
+        
+        return reverse(head)
+
+---------------------------------------------------------------------------------------
+
+while dividing list in half, use fast and slow pointer technique:
+
+slow = head
+fast = head
+
+while fast and fast.next:
+    slow = slow.next
+    fast = fast.next.next
+
+# slow is now at middle
