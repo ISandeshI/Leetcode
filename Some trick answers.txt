@@ -32,3 +32,28 @@ Output: ['odd', 'even', 'odd', 'even']
 
 so remember only if statement then for loop comes first then if statement
 and if else statement then if else statement with their respective expressions and then for loop.
+
+
+-----------------------------------------------------------------------------------
+
+if given any number in binary or regular integer in array, how to convert it to integer:
+ex, 101, means 5 OR 87 means 87. let's say it is in an array.
+then starting from left, multiply the result with it's given base, 2 OR 10 then add current index value 
+keep this in loop and in the end we get number. No matter what base is we can find solution with this code.
+
+ex. 
+result = 0
+for current_bit in array1:
+    result = result * 2 + current_bit
+1. 101==> 
+0*2 + 1 = 1
+1*2 + 0 = 2
+2*2 + 1 = 5
+
+this is answer
+
+2. 87==>
+0*10 + 8 = 8
+8*10 + 7 = 87
+
+this is answer

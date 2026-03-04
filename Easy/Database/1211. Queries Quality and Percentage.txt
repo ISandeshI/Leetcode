@@ -1,0 +1,32 @@
+# 1211. Queries Quality and Percentage
+
+SELECT 
+    query_name,
+    ROUND(AVG(rating / position), 2) AS quality,
+    ROUND(
+        100 * SUM(CASE WHEN rating < 3 THEN 1 ELSE 0 END) / COUNT(*),
+        2
+    ) AS poor_query_percentage
+FROM Queries
+GROUP BY query_name;
+
+
+
+
+"""
+Above answer is AI generated. New learnings of round function and CASE.
+
+Following was my first approach:
+
+# Write your MySQL query statement below
+select query_name, 
+round (avg (rating/position), 2) as quality, 
+round(((select count(query_name) from queries where rating < 3 ) / 
+(select count(query_name) from queries)) * 100, 2)
+as poor_query_percentage 
+from queries
+group by query_name
+
+It partialy ran and failed. poor_query_percentage  this value is getting calculated for entire rows.
+
+"""
