@@ -46,19 +46,61 @@
 # The values of currentTime across all the function calls will be strictly increasing.
 # At most 2000 calls will be made to all functions combined.
 
+class Node:
+    def __init__(self, tokenId, expiryTime):
+        self.tokenId = tokenId
+        self.expiryTime = expiryTime
+        self.next = None
+        self.prev = None
+
 class AuthenticationManager:
 
     def __init__(self, timeToLive: int):
-        
+        self.hashMap = {}
+        self.timeToLive =  timeToLive
+        self.head = Node(None, None)
+        self.tail = Node(None, None)
+
+        self.head.next = self.tail
+        self.tail.prev = self.head
+        # just like LRU problem we are making dummy end nodes. In future doubly linked list looks like:
+        #(Head)<->("aaa",2)<->("bb":6)<->......<->("cccccc":12)<->(Tail)
+
+    def removeNode(self, Node1):
+        prevNode = Node1.prev
+        frontNode = Node1.next
+        prevNode.next = frontNode
+        frontNode.prev = prevNode
+
+    def addToTail(self, Node2):
+        lastNode = self.tail.prev
+        lastNode.next = Node2
+        Node2.prev = lastNode
+        Node2.next = self.tail
+        self.tail.prev = Node2
+
+    def linkedListUpdation(self, currentTime):
+        while self.head.next != self.tail and self.head.next.expiryTime <= currentTime:
+            del self.hashMap[self.head.next.tokenId]
+            self.removeNode(self.head.next)
 
     def generate(self, tokenId: str, currentTime: int) -> None:
-        
+        self.linkedListUpdation(currentTime)
+        Node3 = Node(tokenId, currentTime + self.timeToLive)
+        self.hashMap[tokenId] = Node3
+        self.addToTail(Node3)
 
     def renew(self, tokenId: str, currentTime: int) -> None:
-        
+        self.linkedListUpdation(currentTime)
+        if tokenId in self.hashMap:
+            Node4 = self.hashMap[tokenId]
+            self.removeNode(Node4)
+            Node4.expiryTime = currentTime + self.timeToLive
+            self.addToTail(Node4)
 
     def countUnexpiredTokens(self, currentTime: int) -> int:
-        
+        self.linkedListUpdation(currentTime)
+        return len(self.hashMap)
 
 
 # Your AuthenticationManager object will be instantiated and called as such:
@@ -66,3 +108,43 @@ class AuthenticationManager:
 # obj.generate(tokenId,currentTime)
 # obj.renew(tokenId,currentTime)
 # param_3 = obj.countUnexpiredTokens(currentTime)
+
+"""
+runtime is 8ms and beating 95% + solutions and in memory beating only 8% + solutions.
+I used AI since begining to understand approach and for code as well.
+This problem could have been solved using only hashmap. Because there are max 2000 calls.
+There is another way of using deque(), which is just like linkedlist and readymade by python 
+no need code heavy.
+
+If size is big then combo of "hashmap + linkedlist" is best as per time complexity.
+Operations
+Operation	Time Complexity
+generate	O(1)
+renew	O(1)
+countUnexpiredTokens	O(1) (after cleanup)
+
+Core idea:
+1. Created a Node structure containing tokenId, expiry, prev, and next to store token information in a doubly linked list.
+2. Maintained a HashMap (tokenId → node) for O(1) lookup of tokens when performing renew().
+3. Used a Doubly Linked List to keep tokens ordered by expiry time, with the earliest expiry near the head.
+4.Used dummy head and tail nodes to simplify insertion and deletion operations in the linked list.
+5. Implemented generate(tokenId, currentTime):
+Create a new node with expiry = currentTime + TTL
+Add it to the tail of the linked list
+Store the node in the hashmap.
+6. Implemented renew(tokenId, currentTime):
+First remove expired tokens (cleanup)
+If the token exists, remove the node from its current position
+Update its expiry
+Insert it again at the tail.
+7. Implemented cleanup(currentTime):
+Continuously remove nodes from the head while expiry <= currentTime
+Also delete those tokens from the hashmap.
+8. Implemented countUnexpiredTokens(currentTime):
+Call cleanup(currentTime)
+Return len(hashmap).
+9. Linked list operations used:
+remove(node) → unlink node from list
+add_to_tail(node) → insert node before tail.
+
+"""

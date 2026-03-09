@@ -1,0 +1,127 @@
+1251. Average Selling Price
+
+Easy
+Topics
+premium lock icon
+Companies
+SQL Schema
+Pandas Schema
+Table: Prices
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| product_id    | int     |
+| start_date    | date    |
+| end_date      | date    |
+| price         | int     |
++---------------+---------+
+(product_id, start_date, end_date) is the primary key (combination of columns with unique values) for this table.
+Each row of this table indicates the price of the product_id in the period from start_date to end_date.
+For each product_id there will be no two overlapping periods. That means there will be no two intersecting periods for the same product_id.
+ 
+
+Table: UnitsSold
+
++---------------+---------+
+| Column Name   | Type    |
++---------------+---------+
+| product_id    | int     |
+| purchase_date | date    |
+| units         | int     |
++---------------+---------+
+This table may contain duplicate rows.
+Each row of this table indicates the date, units, and product_id of each product sold. 
+ 
+
+Write a solution to find the average selling price for each product. average_price should be rounded to 2 decimal places. If a product does not have any sold units, its average selling price is assumed to be 0.
+
+Return the result table in any order.
+
+The result format is in the following example.
+
+ 
+
+Example 1:
+
+Input: 
+Prices table:
++------------+------------+------------+--------+
+| product_id | start_date | end_date   | price  |
++------------+------------+------------+--------+
+| 1          | 2019-02-17 | 2019-02-28 | 5      |
+| 1          | 2019-03-01 | 2019-03-22 | 20     |
+| 2          | 2019-02-01 | 2019-02-20 | 15     |
+| 2          | 2019-02-21 | 2019-03-31 | 30     |
++------------+------------+------------+--------+
+UnitsSold table:
++------------+---------------+-------+
+| product_id | purchase_date | units |
++------------+---------------+-------+
+| 1          | 2019-02-25    | 100   |
+| 1          | 2019-03-01    | 15    |
+| 2          | 2019-02-10    | 200   |
+| 2          | 2019-03-22    | 30    |
++------------+---------------+-------+
+Output: 
++------------+---------------+
+| product_id | average_price |
++------------+---------------+
+| 1          | 6.96          |
+| 2          | 16.96         |
++------------+---------------+
+Explanation: 
+Average selling price = Total Price of Product / Number of products sold.
+Average selling price for product 1 = ((100 * 5) + (15 * 20)) / 115 = 6.96
+Average selling price for product 2 = ((200 * 15) + (30 * 30)) / 230 = 16.96
+
+------------------------------------------------------------------------------------
+
+
+SELECT 
+    A.product_id,
+    ROUND(IFNULL(SUM(A.price * B.units) / SUM(B.units), 0), 2) AS average_price
+FROM Prices A
+LEFT JOIN UnitsSold B
+ON A.product_id = B.product_id
+AND B.purchase_date BETWEEN A.start_date AND A.end_date
+GROUP BY A.product_id
+
+
+
+"""
+This only work on left join otherwise we get an error.
+ex.
+
+Prices =
+| product_id | start_date | end_date   | price |
+| ---------- | ---------- | ---------- | ----- |
+| 1          | 2023-01-01 | 2023-01-31 | 10    |
+| 2          | 2023-01-01 | 2023-01-31 | 20    |
+UnitsSold =
+| product_id | purchase_date | units |
+| ---------- | ------------- | ----- |
+
+Expected output
+| product_id | average_price |
+| ---------- | ------------- |
+| 1          | 0             |
+| 2          | 0             |
+
+we have to use left join, so when product id is null, still we get to keep prices table
+and we select product_id to show, if it was some other join then all rows would be empty like:
+Output
+| product_id | average_price |
+| ---------- | ------------- |
+
+Also we cannot use where statement because if purchase_date is null like above, then it won't select any 
+row. To select all rows from table A we have to use "and" statement with on statement.
+And statement ensures the join only matches rows where the purchase date falls inside the price 
+validity period.
+with the help of and statement we knows even if row don't match then keep the left table's data and 
+continue the work although values will be NULL which will be converted to 0 later.
+
+so core concept of this problem was to keep rows from left table no matter what, left join helps you to do that.
+And if we would have used where statement then it could also have make empty rows. so we used and statement 
+right after on statement.
+"""
