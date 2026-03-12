@@ -261,3 +261,9 @@ while fast and fast.next:
     fast = fast.next.next
 
 # slow is now at middle
+
+-----------------------------------------------------------------------------------------------
+to create empty matrix of size m*n:
+matrix = [[0 for _ in range(n)] for _ in range(m)]
+
+this will initialize 2D matrix with 0s of dimension m*n
