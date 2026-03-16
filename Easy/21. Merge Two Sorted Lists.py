@@ -1,4 +1,5 @@
 # 21. Merge Two Sorted Lists
+# recursion included
 # Easy
 # Topics
 # premium lock icon
@@ -64,5 +65,27 @@ I was not able to know how to keep track of head of list3. With chatgpt i come t
 a blank node whose next is start of list3.
 In the end again we have to check if any list is still in existance (and it will at least one element
 from either of the list), then append that all to list3.
+
+-------------------------------------------------------------------------------------
+
+Following is recursive solution, has 0ms runtime, in memory beating 30% + solutions.:
+
+class Solution:
+    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+        #Base cases: If list1 == NULL → return list2
+        # If list2 == NULL → return list1
+
+        if not list1:
+            return list2
+        if not list2:
+            return list1
+        
+        if list1.val <= list2.val:
+            list1.next = self.mergeTwoLists(list1.next, list2)
+            return list1
+        
+        else:
+            list2.next = self.mergeTwoLists(list1, list2.next)
+            return list2
 
 """
