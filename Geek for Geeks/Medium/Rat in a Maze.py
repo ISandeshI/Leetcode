@@ -1,4 +1,5 @@
 # Rat in a Maze
+# recursion included
 # Difficulty: MediumAccuracy: 35.75%Submissions: 407K+Points: 4Average Time: 25m
 # Consider a rat placed at position (0, 0) in an n x n square matrix maze[][]. The rat's goal is to reach the destination at position (n-1, n-1). The rat can move in four possible directions: 'U'(up), 'D'(down), 'L' (left), 'R' (right).
 

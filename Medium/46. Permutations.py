@@ -1,4 +1,5 @@
 # 46. Permutations
+# recursion included
 # Medium
 # Topics
 # premium lock icon
