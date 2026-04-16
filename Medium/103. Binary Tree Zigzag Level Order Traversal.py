@@ -1,11 +1,9 @@
-# 102. Binary Tree Level Order Traversal
-# Tree Included
+# 103. Binary Tree Zigzag Level Order Traversal
 # Medium
 # Topics
 # premium lock icon
 # Companies
-# Hint
-# Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).
+# Given the root of a binary tree, return the zigzag level order traversal of its nodes' values. (i.e., from left to right, then right to left for the next level and alternate between).
 
  
 
@@ -13,7 +11,7 @@
 
 
 # Input: root = [3,9,20,null,null,15,7]
-# Output: [[3],[9,20],[15,7]]
+# Output: [[3],[20,9],[15,7]]
 # Example 2:
 
 # Input: root = [1]
@@ -27,7 +25,7 @@
 # Constraints:
 
 # The number of nodes in the tree is in the range [0, 2000].
-# -1000 <= Node.val <= 1000
+# -100 <= Node.val <= 100
 
 # Definition for a binary tree node.
 # class TreeNode:
@@ -38,13 +36,14 @@
 
 from collections import deque
 class Solution:
-    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+    def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         if not root:
             return []
         
-        queue = deque()
         result = []
+        queue = deque()
         queue.append(root)
+        leftSideInsert = True
 
         while queue:
             currArray = []
@@ -58,13 +57,19 @@ class Solution:
                 if node.right:
                     queue.append(node.right)
 
-            result.append(currArray)
+            if leftSideInsert:
+                result.append(currArray)
+                leftSideInsert = False
+            else:
+                currArray[:] = currArray[::-1]
+                result.append(currArray)
+                leftSideInsert = True
 
         return result
-    
 
 """
-Runtime is 0ms and in memory beating 39% + solutions.
-This is basic BFS algorithm. which uses queue data structure.
-implementing manual queue is time consuming. so used dequeue.
+Runtime 0ms and in memory beating 89% + solutions.
+Just modified previous problem a little bit, where kept a track of activity about whether to store values
+from left to right or vice versa.
+
 """

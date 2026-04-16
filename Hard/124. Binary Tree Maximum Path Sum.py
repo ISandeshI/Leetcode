@@ -39,18 +39,7 @@
 #         self.right = right
 class Solution:
     def maxPathSum(self, root: Optional[TreeNode]) -> int:
-        maxPath = 0
-        def backtrack(node, currPath):
-            nonlocal maxPath
-            if not node:
-                return
-            
-            leftLength = 
-
-
-
-        backtrack(root, 0)
-        return maxPath
+        
 
 
 
