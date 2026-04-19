@@ -38,6 +38,62 @@ class Node:
         self.right = None
 '''
 
+from collections import deque
 class Solution:
     def minTime(self, root, target):
-        
+        parent = {root: None}
+        self.targetNode = None
+        queue = deque()
+        visited = set()
+        maxLevel = 0
+
+        def dfs(node):
+            if not node:
+                return
+            
+            if node.data == target:
+                self.targetNode = node
+            
+            if node.left:
+                parent[node.left] = node
+            
+            if node.right:
+                parent[node.right] = node
+            
+            dfs(node.left)
+            dfs(node.right)
+
+        dfs(root)
+        # now we have dictionary of all nodes and their parents 
+        # also we have detected target node from where burning is going to start
+
+        currLevel = 0
+        queue.append((self.targetNode, currLevel))
+
+        while queue:
+            n = len(queue)
+            for _ in range(n):
+                tup = queue.popleft()
+                # 0th index=node, 1st index = level of bfs
+
+                currNode = tup[0]
+                currLevel = tup[1]
+                visited.add(currNode)
+                maxLevel = max(maxLevel, currLevel)
+
+                if currNode.left and currNode.left not in visited:
+                    queue.append((currNode.left, currLevel + 1))
+                if currNode.right and currNode.right not in visited:
+                    queue.append((currNode.right, currLevel + 1))
+                if parent[currNode] and parent[currNode] not in visited:
+                    queue.append((parent[currNode], currLevel + 1))
+
+        return maxLevel
+    
+"""
+This was quiet hard problem. There were many components here to keep track of.
+I saw following tutor's logic behind this and implemented it. To check the explaination about what is 
+happening above, please check the following video. It's quiet big bur worth it:
+https://www.youtube.com/watch?v=OOt1jVODA64
+
+"""

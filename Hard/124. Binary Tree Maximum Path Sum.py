@@ -39,14 +39,28 @@
 #         self.right = right
 class Solution:
     def maxPathSum(self, root: Optional[TreeNode]) -> int:
+        self.maxSum = float("-inf")
         
+        def backtracking(node):
+            if not node:
+                return 0
+            
+            leftSum = max(0, backtracking(node.left))
+            rightSum = max(0, backtracking(node.right))
+            # If subtree is negative → don’t take it
 
+            self.maxSum = max(self.maxSum, leftSum + rightSum + node.val)
 
+            return node.val + max(leftSum, rightSum)
 
-
-
-
-
-
-
-
+        backtracking(root)
+        return self.maxSum
+    
+"""
+Runtime is 5ms beating 84% + solutions and in memory beating 67% + solution.
+This code looks smaller but thinking is very time consuming.
+Previously i had close up code but it started collapsing for edge cases, so i started adding exceptions.
+I should have know that this means code is not optimised.
+So took help of AI, it told most important thing, do not take negative value from bottom side, instead 
+we can ignore it and choose 0. that's why line number 48 - 49 are important.
+"""
