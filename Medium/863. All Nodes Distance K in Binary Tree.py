@@ -37,6 +37,53 @@
 #         self.left = None
 #         self.right = None
 
+from collections import deque
 class Solution:
     def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
-        
+        parentHashMap = {root: None}
+        queue = deque()
+        ans = []
+        visited = set()
+        currDistance = 0
+
+        def dfs(node):
+            if not node:
+                return
+            if node.left:
+                parentHashMap[node.left] = node
+            if node.right:
+                parentHashMap[node.right] = node
+            
+            dfs(node.left)
+            dfs(node.right)
+
+        dfs(root)
+
+        queue.append(target)
+        while queue:
+            n = len(queue)
+            if currDistance == k:
+                for i in range(n):
+                    node = queue.popleft()
+                    ans.append(node.val)
+                break
+
+            for i in range(n):
+                currNode = queue.popleft()
+                visited.add(currNode)
+
+                if currNode.left and currNode.left not in visited:
+                    queue.append(currNode.left)
+                if currNode.right and currNode.right not in visited:
+                    queue.append(currNode.right)
+                if parentHashMap[currNode] and parentHashMap[currNode] not in visited:
+                    queue.append(parentHashMap[currNode])
+            currDistance += 1
+
+        return ans
+    
+"""
+Runtime is 51ms beating 43% + solutions and in memory beating 39% + solutions.
+I solved burning tree GFG problem today, so i knew what will be approach.
+So i solved this.
+"""
