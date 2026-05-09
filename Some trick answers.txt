@@ -57,3 +57,16 @@ this is answer
 8*10 + 7 = 87
 
 this is answer
+
+----------------------------------------------------------------------------------------
+
+[[False] * colLength for _ in range(rowLength)]
+This is the right way to create boolean matrix.
+
+The way we create matrix for integers or strings it is not same for boolean.:
+
+visited = [[False] * colLength] * rowLength
+
+this is wrong. it will create same matrix, but all column values are same reference of forst copy.
+so change any cell and all the cells of same columns will get same update.
+That's the reason my code was stuck forever. So i made change in line 44.
