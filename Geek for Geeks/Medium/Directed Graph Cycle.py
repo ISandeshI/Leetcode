@@ -1,6 +1,6 @@
 # Directed Graph Cycle
 # Graph Included
-# Difficulty: MediumAccuracy: 27.88%Submissions: 577K+Points: 4
+# Difficulty: MediumAccuracy: 27.88%Submissions: 580K+Points: 4
 # Given a Directed Graph with V vertices (Numbered from 0 to V-1) and E edges, check whether it contains any cycle or not.
 # The graph is represented as a 2D vector edges[][], where each entry edges[i] = [u, v] denotes an edge from vertex u to v.
 
@@ -23,23 +23,49 @@
 # 0 ≤ edges[i][0], edges[i][1] < V
 
 
-from collections import deque
+from collections import defaultdict
 class Solution:
     def isCyclic(self, V, edges):
+        adjList = defaultdict(list)
+        n = len(edges)
+        for i in range(n):
+            src = edges[i][0]
+            dst = edges[i][1]
+            adjList[src].append(dst)
         visited = [False] * V
-        queue = deque()
-        queue.append(0)
-        visited[0] = True
+        pathVisited = [False] * V
 
-        while queue:
-            n = len(queue)
-            for i in range(n):
-                vertice = queue.popleft()
-                for connectedVertice in edges[vertice]:
-                    if visited[connectedVertice]:
-                        return True
-                    visited[connectedVertice] = True
-                    queue.append(connectedVertice)
-        
+        def dfs(sourceNode):
+            visited[sourceNode] = True
+            pathVisited[sourceNode] = True
+
+            for neighbour in adjList[sourceNode]:
+                if pathVisited[neighbour]:
+                    return True
+                if visited[neighbour]:
+                    continue
+                if dfs(neighbour):
+                    return True
+
+            pathVisited[sourceNode] = False
+            return False
+
+        for j in range(V):
+            if not visited[j]:
+                if dfs(j):
+                    return True
+                
         return False
 
+
+"""
+Initialy i did wrong order of flow of code. I wrote:
+                if visited[neighbour]:
+                    continue
+                if pathVisited[neighbour]:
+                    return True
+
+this made code skip valid paths beforehand, that's why i have to reverser order of this flow.
+
+This is complete Shashcode's logic, i have nothing to do with this.
+"""
